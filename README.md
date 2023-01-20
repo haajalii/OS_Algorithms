@@ -10,7 +10,6 @@ This file contains functions to calculate ***turnaround_time*** , ***wating_time
 
 This file contains a function  to get the input from csv file from given path and format the input in a python dictionary
 **EXAMPLE:**
-<sub>
 {
   'p1': {
       'arrival_time': 1,
@@ -18,4 +17,3 @@ This file contains a function  to get the input from csv file from given path an
    },
    ...
 }
-</sub>
