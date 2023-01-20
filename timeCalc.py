@@ -15,3 +15,6 @@ def avg_time(count, times_list):
     for time in times_list:
         sum += time
     return sum/count
+
+# utilization
+#
