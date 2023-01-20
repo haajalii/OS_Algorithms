@@ -8,12 +8,12 @@ This file contains functions to calculate ***turnaround_time*** , ***wating_time
 
 ####### GetInput.py
 
-This file contains a function  to get the input from csv file from given path and format the input in a python dictionary __
-**EXAMPLE:** __
-{ __
-  'p1': { __
-      'arrival_time': 1, __
-      ... __
-   }, __
-   ... __
-} __
+This file contains a function  to get the input from csv file from given path and format the input in a python dictionary <br />
+**EXAMPLE:** <br />
+{ <br />
+  'p1': { <br />
+      'arrival_time': 1, <br />
+      ... <br />
+   }, <br />
+   ... <br />
+} <br />
