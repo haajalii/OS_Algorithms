@@ -113,6 +113,9 @@ elif algorithm == 3:
     idle = result['idle']
     print_result(result, 'RoundRobin')
 elif algorithm == 4:
-    SRT.srt(process_details)
-
+    result = SALT.srtf(process_details)
+    create_time_lists(result, process_details_copy)
+    total = result['total']
+    idle = result['idle']
+    print_result(result, 'SRTF')
 
