@@ -52,6 +52,6 @@ def fcfs(process_details):
     result['idle'] = idle
     result['total'] = current_time
 
-    print(result)
+    return result
 
 

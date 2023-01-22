@@ -2,6 +2,7 @@ import AdditionalFuntions
 
 
 def make_ready_queue(process_details):
+    # process = [arrival_time, cpu_time, process_ID]
     ready_queue = []
     for key in process_details:
         arrival = [process_details[key]['arrival_time'], process_details[key]['cpu_time1'], key]
@@ -29,7 +30,15 @@ def current_index(ready, time):
             return ready.index(j)
 
 
-def sjf(process_details):
+def next_arrived(ready, time, process):
+    if not ready:
+        return [False, 0]
+    if (time + process[1]) > ready[0][0]:
+        return [True, ((time + process[1]) - ready[0][0])]
+    return [False, 0]
+
+
+def srt(process_details):
     current_time = 0
     idle = 0
     ready_queue = make_ready_queue(process_details)
@@ -40,6 +49,7 @@ def sjf(process_details):
             'end': 0
         }
     while len(ready_queue) > 0:
+        print(ready_queue)
         gap = 0
         pop_index = current_index(ready_queue, current_time)
         current_process = ready_queue.pop(pop_index)
@@ -51,11 +61,19 @@ def sjf(process_details):
         # check if the cpu_time_1 is done or not
         if not done_service[0]:
             result[current_process[2]]['start'] = current_time
-            current_time += current_process_info['cpu_time1']
-            current_process_info['cpu_time1'] = 0
+            is_arrived = next_arrived(ready_queue, current_time, current_process)
+            if is_arrived[0]:
+                current_time += (current_process[1] - is_arrived[1])
+                current_process[1] = is_arrived[1]  # changed
+                current_process[0] = current_time  # changed
+                ready_queue.append(current_process)
+            else:
+                current_time += current_process_info['cpu_time1']
+                current_process_info['cpu_time1'] = 0
+                done_service[0] = True
 
         # check if the io_time is done or not
-        if not done_service[1]:
+        if done_service == [True, False, False]:
             ready_queue.append([
                 (current_time + current_process_info['io_time']),
                 current_process_info['cpu_time2'],
@@ -65,14 +83,18 @@ def sjf(process_details):
 
         # check if the cpu_time_2 is done or not
         if done_service == [True, True, False]:
-            current_time += current_process_info['cpu_time2']
-            result[current_process[2]]['end'] = current_time
-            current_process_info['cpu_time2'] = 0
+            is_arrived = next_arrived(ready_queue, current_time, current_process)
+            if is_arrived[0]:
+                current_time += (current_process[1] - is_arrived[1])
+            else:
+                current_time += current_process_info['cpu_time2']
+                result[current_process[2]]['end'] = current_time
+            current_process_info['cpu_time2'] = is_arrived[1]
         ready_queue.sort()
 
     result['idle'] = idle
     result['total'] = current_time
 
-    return result
+    print(result)
 
 
