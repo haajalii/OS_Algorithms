@@ -1,3 +1,5 @@
+import copy
+
 import FCFS
 import GetInput
 import RR
@@ -8,6 +10,7 @@ import timeCalc
 
 
 process_details = GetInput.get_input('./inputFile.csv')
+process_details_copy = copy.deepcopy(process_details)
 wt = []
 tat = []
 resp = []
@@ -72,14 +75,14 @@ def print_result(result, algorithm):
     print('Throughput: ', throughput)
 
 
-def create_time_lists(res, process_details):
+def create_time_lists(res, process_detail):
     for key in list(res.keys())[:-2:]:
-        cpu_time1 = process_details[key]['cpu_time1']
-        cpu_time2 = process_details[key]['cpu_time2']
+        cpu_time1 = process_detail[key]['cpu_time1']
+        cpu_time2 = process_detail[key]['cpu_time2']
         end = res[key]['end']
         start = res[key]['start']
-        arrival = process_details[key]['arrival_time']
-        io = process_details[key]['io_time']
+        arrival = process_detail[key]['arrival_time']
+        io = process_detail[key]['io_time']
         wt.append(timeCalc.waiting_time(arrival, end, (cpu_time1 + cpu_time2), io))
         tat.append(timeCalc.turn_around_time(arrival, end))
         resp.append(timeCalc.response_time(start, arrival))
@@ -92,20 +95,20 @@ result = {}
 
 if algorithm == 1:
     result = FCFS.fcfs(process_details)
-    create_time_lists(result, process_details)
+    create_time_lists(result, process_details_copy)
     total = result['total']
     idle = result['idle']
     print_result(result, 'FCFS')
 elif algorithm == 2:
     result = SJF.sjf(process_details)
-    create_time_lists(result, process_details)
+    create_time_lists(result, process_details_copy)
     total = result['total']
     idle = result['idle']
     print_result(result, 'SJF')
 elif algorithm == 3:
     tq = int(input())
     result = RR.rr(process_details, tq)
-    create_time_lists(result, process_details)
+    create_time_lists(result, process_details_copy)
     total = result['total']
     idle = result['idle']
     print_result(result, 'RoundRobin')
